@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="mk">
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <link rel="stylesheet" href="../assets/styles/styles-68ccb29b9a.css"/>
+
+    <script src="../assets/scripts/Vendor-62387867cd.js"></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="wrapper">
+            <div class="site-header__logo">
+                <div class="site-header__logo__graphic icon icon--HD">МСУ</div>
+            </div>
+            <div class="site-header__menu-icon">
+                <div class="site-header__menu-icon__middle"></div>
+            </div>
+
+            <div class="site-header__menu-content">
+                <div class="site-header__btn_container">
+                    <a href="#" class="btn open-modal">Инструкции</a>
+                    <form style="display: inline; padding-left: 4px;" action="/logout" method="GET"> <button type="submit"  class="btn btn--orange">Одјави се</button></form>
+                </div>
+                <nav class="primary-nav primary-nav--pull-right">
+                    <ul>
+                        <li><a href="https://msu.edu.mk/">МСУ</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="large-hero">
+
+        <picture>
+            <img srcset="../assets/images/eucenje_msu_header_page.jpg" alt="Е-учење" class="large-hero__image">
+        </picture>
+        <div class="large-hero__text-content">
+            <div class="wrapper wrapper--colored">
+                <h1 class="large-hero__title">
+                    Добредојде 
+                </h1>
+                <h2 class="large-hero__subtitle"> <%=  sInfo[0].ImeIPrezime %> </h2>
+                <p class="large-hero__description">Избери до 5 предмети за пријавување.</p>
+                <p><a href="#prijavi" id="prijavi" class="btn btn--orange btn--large">Пријави</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper">
+    <div class="table-container" id="content_fill">
+
+        <div class="generic-content-container" id="prijavi" data-matching-link="#prijavi" style="padding-bottom: 50px;">
+            <h1>Пријавени Испити</h1>
+            <%if(appInfo.length >0){%>
+            <div id = "count-picked" data-value ="<%= appInfo.length %>" ></div>
+            <table class="table-container__table" >
+                <thead class="table-container__thead">
+                    <tr>
+                    <th>Број на <br>пријава</th> 
+                    <th>Име на Предмет</th> 
+                    <th class="table-container--hide-on-medium">Код на Предмет</th> 
+                    <th>Семестар</th> 
+                    <th class="table-container--hide-on-small">Кредити</th> 
+                    <th class="table-container--hide-on-medium">Учебна<br>Година</th> 
+                    <th class="table-container--hide-on-small">Професор</th>
+                    </tr>
+                </thead>
+                    <% appInfo.forEach(prijava =>{ %>
+                        <tr> 
+                          <td><%= prijava.ID %></td>
+                          <td><%= prijava.ImeNaPredmet %>
+                          <td class="table-container--hide-on-small"><%= prijava.KodNaPredmet %></td>
+                          <td><%= prijava.Semestar %></td>
+                          <td class="table-container--hide-on-medium"><%= prijava.Krediti %></td>
+                          <td class="table-container--hide-on-medium"><%= prijava.UcebnaGodina %></td>
+                          <td class="table-container--hide-on-small"><%= prijava.Profesor %></td>
+                        </tr> 
+                    <% }) %>              
+            </table>
+            <%}else{%>
+                <h2>Немате пријавено ниту еден испит во оваа испитна сесија.</h2>
+                <div id = "count-picked" data-value ="0" ></div>
+                <%}%>
+
+        </div>
+        
+       
+        <div class="event-table-container" >
+            <% if(currEvent) { %>
+         <h1>Предмети за Пријавување</h1>
+         <%if(prInfo.length>0){%>
+         <form  action="/subsin/<%= idEvent%>" method="POST">
+          <div class="event-table-container__flexbox">
+            <% 
+            let x =0;
+            prInfo.forEach(predmet =>{ 
+            %>
+            <% if (x%2==0){ %>
+             <div class="event-table-container__flexbox--row">
+            <%}%>
+                <div class="event-table-container__flexbox--column">
+                    <div class="event-table-container__flexbox--column--blue">
+                        <h3>
+                            <input class="subject-checkbox" type="checkbox" name="predmet" value="<%=predmet.idSnap%>">
+                            <p style="display: inline;"><%= predmet.ImeNaPredmet %><p>
+                        </h3>
+                    </div>
+                </div>
+                <% if (x%2 == 1){ %>
+                </div>
+                <%}x+=1;%>
+            <% }) %>   
+          </div>
+          <div class="event-table-container__flexbox">
+          <div class="event-table-container__flexbox--row">
+            <div class="event-table-container__flexbox--column event-table-container__flexbox--column--spaced">
+        <button action="submit" type = "submit" class="btn btn--orange "><h1>Пријави<h1></button>
+        </div>
+        </div>
+        </div>
+        </form>
+        <%} else{%>
+            <h2 style="padding-bottom: 100px; padding-top: 50px;">Нема предмети за пријавување за оваа сесија.</h2>
+            <%}%>
+        <%} else{%>
+            <div class="event-table-container__flexbox">
+            <h2 style="padding-bottom: 100px; padding-top: 50px;">Сесијата не е во тек.</h2>
+            </div>
+        
+            <%}%>
+        </div>
+       
+    </div>
+    
+    </div>
+
+    <footer class="site-footer" style="position: relative; bottom:0; width:100%; padding-top: 10px;">
+        <div class="wrapper" id="mapa" data-matching-link="#mapa-link">
+            <p><span class="site-footer__text">Copyright &copy; 2021 HD productions. All rights reserved.</span>
+                
+            </p>
+        </div>
+    </footer>
+
+   <div class="modal">
+        <div class="modal__inner">
+            <h2 class="section-title section-title--blue section-title--less-margin">
+                <span class="icon icon--mail section-title__icon"></span><strong>Инструкции</strong>
+            </h2>
+
+            <div class="wrapper wrapper--narrow">
+                <p class="modal__description">Предметите кои не се положени, не се веќе пријавени во оваа сесија а се пријавени од страна на студентот кој е логиран се понудени за пријавување.
+                    <br>Секој од пријавените предмети со цел за демонстрација се сметаат за положени затоа што самиот проект не имплементира начин за доделување на оценка.
+                    <br>Бројот на предмети кои можат да се пријават е 5 - преходно пријавени премети во оваа сесија.
+                    <!--<br>Контактирајте не на една од понудените платформи!-->
+                
+                </p>
+            </div>
+            <!--
+            <div class="social-icons">
+                <a href="" class="social-icons__icon"> <span class="icon icon--facebook"></span></a>
+                <a href="" class="social-icons__icon"> <span class="icon icon--twitter"></span></a>
+                <a href="" class="social-icons__icon"> <span class="icon icon--instagram"></span></a>
+                <a href="" class="social-icons__icon"> <span class="icon icon--youtube"></span></a>
+            </div>
+            -->
+        </div>
+        <div class="modal__close">X</div>
+    </div>
+    
+    <script src="../assets/scripts/App-98bbc99f13.js"></script>
+</body>
+
+</html>

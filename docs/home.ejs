@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="mk">
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <link rel="stylesheet" href="../assets/styles/styles-68ccb29b9a.css"/>
+
+    <script src="../assets/scripts/Vendor-62387867cd.js"></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="wrapper">
+            <div class="site-header__logo">
+                <div class="site-header__logo__graphic icon icon--HD">МСУ</div>
+            </div>
+            <div class="site-header__menu-icon">
+                <div class="site-header__menu-icon__middle"></div>
+            </div>
+
+            <div class="site-header__menu-content">
+                <div class="site-header__btn_container">
+                    <a href="#" class="btn open-modal">Инструкции</a>
+                    <form style="display: inline; padding-left: 4px;" action="/logout" method="GET"> <button type="submit"  class="btn btn--orange">Одјави се</button></form>
+                    
+                </div>
+                <nav class="primary-nav primary-nav--pull-right">
+                    <ul>
+                        <li><a href="https://msu.edu.mk/">МСУ</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="large-hero">
+        <picture>
+            <img srcset="../assets/images/eucenje_msu_header_page.jpg" alt="Е-учење" class="large-hero__image">
+        </picture>
+        <div class="large-hero__text-content">
+            <div class="wrapper wrapper--colored">
+                <h1 class="large-hero__title">
+                    Добредојде 
+                </h1>
+                <h2 class="large-hero__subtitle"> <%= sInfo[0].ImeIPrezime %> </h2>
+                <p class="large-hero__description">Преостанати испити : <%= prInfo.length %>.</p>
+                <p><a href="#nastani" id="nastani" class="btn btn--orange btn--large">Настани</a></p>
+            </div>
+        </div>
+    </div>
+<div id="to-add" class="wrapper">
+        <div class="event-table-container" id="content_fill">
+            
+            <div class="generic-content-container" id="nastani" data-matching-link="#nastani">
+                <h1>Известувања за испитна сесија</h1>
+                <div class="event-table-container__table">
+
+                        <% const month = ["јануари","февруари","март","април","мај","јуни","јули","август","септември","октомври","ноември","декември"];
+                        let pasteThis;
+                        eInfo.forEach(event =>{%> 
+                        <% if(Date.now()>= event.EventStart && Date.now() <= event.EventEnd) { %>
+                                    <div name="myEventBlock" class="event-table-container__table__row--active" name = "eve" data-value = <%= event.idEvent %> >
+                                    <% }else {%>
+                                    <div name="myEventBlock" class="event-table-container__table__row"    name = "eve"     data-value = <%= event.idEvent %> > 
+                                    <%}%>
+                                <span> 
+
+
+                                <h4>Известување за пријавување на испитна сесија!</h4>
+                                
+                                    <% if(Date.now()>= event.EventStart && Date.now() <= event.EventEnd) { %>
+                                    Во тек е пријавувањето за испитната сесија кое ќе се одвива се до
+                                    <% }else {%>
+                                    Пријавувањето за испитната сесисја ќе се одвива од 
+                                    <%= event.EventStart.getDate()%> <%= month[event.EventStart.getMonth()]%> <%= event.EventStart.getFullYear()%> до
+                                    <%}%> 
+                                   <%= event.EventEnd.getDate()%> <%= month[event.EventEnd.getMonth()]%> <%= event.EventEnd.getFullYear()%>.
+                                   Може да се пријават предмети од
+                                   <% if( event.Type == 1 ) { %>
+                                    било кој
+                                    <%} else if( event.Type == 2){%>
+                                         парен
+                                         <% } else {%>
+                                        непарен
+                                        <% } %>
+                                   семестар.
+                                         </span>
+                                        </div> 
+                        <% }) %>              
+                                    </div>
+            </div>
+        </div>
+</div>
+    <footer class="site-footer" style="position: relative; bottom:0; width:100%; padding-top: 10px;">
+        <div class="wrapper" id="mapa" data-matching-link="#mapa-link">
+            <p><span class="site-footer__text">Copyright &copy; 2021 HD productions. All rights reserved.</span>
+                
+            </p>
+        </div>
+    </footer>
+
+    <div class="modal">
+        <div class="modal__inner">
+            <h2 class="section-title section-title--blue section-title--less-margin">
+                <span class="icon icon--mail section-title__icon"></span><strong>Инструкции</strong>
+            </h2>
+
+            <div class="wrapper wrapper--narrow">
+                <p class="modal__description">Динамично е генерирана листа на сесии од соодветен тип.
+                    <br>Активните се со портокалова боја, додека неактивните и веќе изминатите се со сина боја.
+                    <br>Со кликнување на еден од настаните се генерира AJAX т.е. fetch() request за одредениот настан по што се пренасочува прелистувачот кон страна за истиот.
+                    <!--<br>Контактирајте не на една од понудените платформи!-->
+                
+                </p>
+            </div>
+            <!--
+            <div class="social-icons">
+                <a href="" class="social-icons__icon"> <span class="icon icon--facebook"></span></a>
+                <a href="" class="social-icons__icon"> <span class="icon icon--twitter"></span></a>
+                <a href="" class="social-icons__icon"> <span class="icon icon--instagram"></span></a>
+                <a href="" class="social-icons__icon"> <span class="icon icon--youtube"></span></a>
+            </div>
+            -->
+        </div>
+        <div class="modal__close">X</div>
+    </div>
+    
+    <script src="../assets/scripts/App-98bbc99f13.js"></script>
+</body>
+
+</html>

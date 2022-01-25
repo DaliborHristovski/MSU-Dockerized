@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  app:
+    image: node:16-alpine
+    command: sh -c "yarn install && yarn run dev"
+    ports:
+      - 80:8000
+    working_dir: /src
+    volumes:
+      - .:/src
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Lozinka123
+      MYSQL_DB: university
+
+  mysql:
+    image: mysql:8.0.23
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+      #- msu_university-mysql-data:/var/lib/mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: Lozinka123
+      MYSQL_DATABASE: university
+    
+volumes:
+  msu_university-mysql-data:
